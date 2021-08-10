@@ -32,6 +32,7 @@ namespace MovieShopMVC.Controllers
             
         }
 
+
         public IActionResult Privacy()
         {
             return View();
