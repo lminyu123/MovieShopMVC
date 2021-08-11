@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using ApplicationCore.ServiceInterfaces;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,16 +14,16 @@ namespace MovieShopMVC.Controllers
    
     public class HomeController : Controller
     {
-        private MovieService _movieService;
+        private IMovieService _movieService;
            
-        public HomeController()
+        public HomeController(IMovieService movieService)
         {
-            _movieService = new MovieService();
+            _movieService = movieService;
         }
 
         public IActionResult Index()
         {
-            var movies = _movieService.GotTopRevenueMovies()
+            var movies = _movieService.GotTopRevenueMovies();
 ;            // get top revenue movie and display on the view
 
             ViewBag.PageTitle = "Top Revenue Movie";
