@@ -12,7 +12,6 @@
     <None Remove="RepositoryInterface\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entities\" />
     <Folder Include="Model\" />
     <Folder Include="Exceptions\" />
     <Folder Include="ServiceInterfaces\" />
