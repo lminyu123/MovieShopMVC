@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApplicationCore.RepositoryInterface;
 using ApplicationCore.ServiceInterfaces;
 using Infrastructure.Data;
 using Infrastructure.Services;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Infrastructure.Repositories;
 
 namespace MovieShopMVC
 {
@@ -29,7 +31,9 @@ namespace MovieShopMVC
         {
             services.AddControllersWithViews();
 
-            services.AddScoped<IMovieService, MovieServiceTest >();//IMV go to inject mv 
+            services.AddScoped<IMovieService, MovieService >();//IMV go to inject mv 
+            services.AddScoped<IMovieRepository, MovieRespositoy>(); //为了要injection imvrepos 到mvrepos
+            
 
             services.AddDbContext<MovieShopDbContext>
                 (

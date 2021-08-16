@@ -21,15 +21,13 @@ namespace MovieShopMVC.Controllers
             _movieService = movieService;
         }
 
-        public IActionResult Index()
+        public async Task <IActionResult> Index()
         {
-            var movies = _movieService.GotTopRevenueMovies();
+            var movieCards =await _movieService.GotTopRevenueMovies();
 ;            // get top revenue movie and display on the view
 
-            ViewBag.PageTitle = "Top Revenue Movie";
-            ViewData["TotalMovies"] = movies.Count();
 
-            return View(movies);
+            return View(movieCards);
             
         }
 

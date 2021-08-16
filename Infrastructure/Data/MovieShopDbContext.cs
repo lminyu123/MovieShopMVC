@@ -25,6 +25,7 @@ namespace Infrastructure.Data
         public DbSet<Role> Role{ get; set; }
         public DbSet<Role> User { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //通过icollection 先把movie和genre连起来，然后再m.genre
@@ -59,17 +60,23 @@ namespace Infrastructure.Data
         {
             builder.ToTable("Purchase");
             builder.HasKey(p =>p.Id);
-            
+            builder.Property(p => p.TotalPrice).HasColumnType("decimal(18, 2)");
             builder.HasOne(p=>p.User).WithMany(p=>p.Purchases).HasForeignKey(p=>p.UserId);
             builder.HasOne(p=>p.Movie).WithMany(p=>p.Purchases).HasForeignKey(p=>p.MovieId);
         }
         private void ConfigureReview(EntityTypeBuilder<Review> builder)
         {
             builder.ToTable("Review");
-            builder.HasKey(r => new { r.UserId, r.MovieId });
-            builder.Ignore(r => r.Rating);
-            builder.HasOne(r =>r.User ).WithMany(r=>r.Reviews).HasForeignKey(r => r.UserId);
-            builder.HasOne(r=>r.User).WithMany(r=>r.Reviews).HasForeignKey(r => r.MovieId);
+            builder.HasKey(r => new { r.MovieId, r.UserId });
+            //builder.Ignore(r => r.Rating);
+            builder.Property(r => r.Rating).HasColumnType("decimal(3,2)");
+            //builder.HasOne(r =>r.User ).WithMany(r=>r.Reviews).HasForeignKey(r => r.UserId);
+            //builder.HasOne(r=>r.Movie).WithMany(r=>r.Reviews).HasForeignKey(r => r.MovieId);
+
+            builder.HasOne(r => r.Movie).WithMany(r => r.Reviews).HasForeignKey(r => r.MovieId);
+            builder.HasOne(r => r.User).WithMany(r => r.Reviews).HasForeignKey(r => r.UserId);
+
+
         }
         private void ConfigureUserRole(EntityTypeBuilder<UserRole> builder)
         {

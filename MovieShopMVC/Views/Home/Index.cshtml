@@ -1,22 +1,20 @@
 ﻿@model List<ApplicationCore.Model.MovieCardResponseModel>
-    
-@{
-    ViewData["Title"] = "Home Page";
-}
-<h1>
-    @ViewBag.PageTitle
-</h1>
-<h3>
-    Total Top Movies:@ViewData["TotalMovies"]
-</h3>
-<div>
-    <ul>
-        @foreach(var movie in Model)
+
+@{ ViewData["Title"] = "Home Page"; 
+    }
+
+<div class="rounded">
+    <div class="container-fluid bg-light">
+        <div class="row">
+            @foreach(var movie in Model)
             {
-                <li>
-                    @movie.Id<br />
-                    @movie.Title
-                </li>
+                <div class="col-6 col-lg-3 col-sm-4 xl-2">
+                    @await Html.PartialAsync("_MovieCard", movie);
+                </div>
             }
-    </ul>
+
+        </div>
+    </div>
+  
 </div>
+
