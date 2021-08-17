@@ -31,6 +31,11 @@ namespace Infrastructure.Repositories
 
         }
 
-        
+        public override Task<Movie> GetByIdAsync(int id)
+        {
+            return base.GetByIdAsync(id);
+        }
+
+
     }
 }

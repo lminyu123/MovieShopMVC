@@ -33,6 +33,8 @@ namespace MovieShopMVC
 
             services.AddScoped<IMovieService, MovieService >();//IMV go to inject mv 
             services.AddScoped<IMovieRepository, MovieRespositoy>(); //为了要injection imvrepos 到mvrepos
+            services.AddScoped<IUserRepository,UserRepository>();
+            services.AddScoped<IUserService,UserService>();
             
 
             services.AddDbContext<MovieShopDbContext>

@@ -11,9 +11,4 @@
     <None Remove="ServiceInterfaces\" />
     <None Remove="RepositoryInterface\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="Exceptions\" />
-    <Folder Include="ServiceInterfaces\" />
-  </ItemGroup>
 </Project>

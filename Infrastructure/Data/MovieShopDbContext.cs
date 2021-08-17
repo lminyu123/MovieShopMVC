@@ -22,10 +22,9 @@ namespace Infrastructure.Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Trailer> Trailers { get;set; }
         public DbSet<Cast> Casts { get; set; }
-        public DbSet<Role> Role{ get; set; }
-        public DbSet<Role> User { get; set; }
-
-
+        public DbSet<Role> Roles{ get; set; }
+       // public DbSet<Role> User { get; set; }
+        public DbSet<User> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //通过icollection 先把movie和genre连起来，然后再m.genre
