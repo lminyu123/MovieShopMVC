@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ApplicationCore.Model;
 using ApplicationCore.ServiceInterfaces;
@@ -31,6 +32,8 @@ namespace MovieShopMVC.Controllers
             {
                 return View();
             }
+
+
             var user = await _userService.Login(model);
             
             if (user == null) //acception
@@ -40,7 +43,7 @@ namespace MovieShopMVC.Controllers
 
             // Cookies based authentication....
             return LocalRedirect("~/");
-
+            
         }
         [HttpGet]
         public IActionResult Register()

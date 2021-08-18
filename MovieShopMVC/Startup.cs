@@ -35,7 +35,12 @@ namespace MovieShopMVC
             services.AddScoped<IMovieRepository, MovieRespositoy>(); //为了要injection imvrepos 到mvrepos
             services.AddScoped<IUserRepository,UserRepository>();
             services.AddScoped<IUserService,UserService>();
-            
+            services.AddScoped<ICastService, CastService>();
+            services.AddScoped<ICastRepository, CastRepository>();
+
+
+
+
 
             services.AddDbContext<MovieShopDbContext>
                 (
@@ -60,7 +65,7 @@ namespace MovieShopMVC
             app.UseStaticFiles();
 
             app.UseRouting();
-
+           // app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

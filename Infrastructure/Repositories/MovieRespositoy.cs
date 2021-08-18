@@ -31,9 +31,24 @@ namespace Infrastructure.Repositories
 
         }
 
-        public override Task<Movie> GetByIdAsync(int id)
+        public override async Task<Movie> GetByIdAsync(int Id)
         {
-            return base.GetByIdAsync(id);
+            // movie table, then genres, then casts and rating
+            // include() theninclude()
+            var movie = await _dbContext.Movies.Include(m => m.MovieCasts).ThenInclude(m => m.Cast).Include(m => m.Genres)
+                 .FirstOrDefaultAsync(m => m.Id == Id);// use include prop join the navigation prop
+            
+                
+                if (movie == null)
+            {
+                throw new Exception($"No Movie Found for the id {Id}");
+            }
+
+            var movieRating = await _dbContext.Reviews.Where(m => m.MovieId == Id).DefaultIfEmpty()
+                .AverageAsync(r => r == null ? 0 : r.Rating); // using review for get avg rating  to retuern whole object  
+
+            movie.Rating = movieRating;
+            return movie;
         }
 
 
