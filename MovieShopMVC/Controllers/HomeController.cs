@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MovieShopMVC.Models;
 
+
+
 namespace MovieShopMVC.Controllers
 {
    
@@ -23,8 +25,9 @@ namespace MovieShopMVC.Controllers
 
         public async Task <IActionResult> Index()
         {
+           
             var movieCards =await _movieService.GotTopRevenueMovies();
-;            // get top revenue movie and display on the view
+            // get top revenue movie and display on the view
 
 
             return View(movieCards);

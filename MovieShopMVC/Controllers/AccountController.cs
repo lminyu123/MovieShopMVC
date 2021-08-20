@@ -5,6 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using ApplicationCore.Model;
 using ApplicationCore.ServiceInterfaces;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -28,6 +30,8 @@ namespace MovieShopMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequestModel model)
         {
+            //cookie based authentication
+            //form authentication
             if (!ModelState.IsValid)
             {
                 return View();
@@ -36,10 +40,32 @@ namespace MovieShopMVC.Controllers
 
             var user = await _userService.Login(model);
             
-            if (user == null) //acception
+            if (user == null) // login can't find
             {
                 throw new Exception("Invalid Login");
             }
+            //identity some info in the cookies, authentication cookue..claims
+            
+            //create claim first
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.GivenName, user.FirstName),
+                new Claim(ClaimTypes.Surname, user.LastName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+            // identity class..and class
+            //go to an bar=>check your identity =>driving lisence
+            //go to airport=>check your passport
+            //create movie=>claim with role value as admin
+
+
+            //put claim in indentity
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);//get your lisence
+            //create cookie
+            //httpcontext
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
 
             // Cookies based authentication....
             return LocalRedirect("~/");

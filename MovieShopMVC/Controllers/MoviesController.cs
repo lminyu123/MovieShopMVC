@@ -21,7 +21,7 @@ namespace MovieShopMVC.Controllers
         public async Task <IActionResult> Details(int id)
         {
             var movieDetails = await _movieService.GetMovieDetails(id);
-            //cal the database and get movie details by id
+            //call the database and get movie details by id
             return View(movieDetails);
         }
     }

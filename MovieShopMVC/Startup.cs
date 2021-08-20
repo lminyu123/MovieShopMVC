@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace MovieShopMVC
 {
@@ -37,6 +38,17 @@ namespace MovieShopMVC
             services.AddScoped<IUserService,UserService>();
             services.AddScoped<ICastService, CastService>();
             services.AddScoped<ICastRepository, CastRepository>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddHttpContextAccessor();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+            {
+                options.Cookie.Name = "MovieShopAuthCookie";
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                options.LoginPath = "/Account/Login"; //when cookie expire, rerun use this
+            });
+
 
 
 
@@ -53,7 +65,8 @@ namespace MovieShopMVC
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+               // app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/Home/Error");
             }
             else
             {
@@ -65,7 +78,7 @@ namespace MovieShopMVC
             app.UseStaticFiles();
 
             app.UseRouting();
-           // app.UseAuthentication();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
