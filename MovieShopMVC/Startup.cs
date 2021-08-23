@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using MovieShopMVC.Infrastructure;
+using ApplicationCore.Entities;
 
 namespace MovieShopMVC
 {
@@ -38,8 +40,13 @@ namespace MovieShopMVC
             services.AddScoped<IUserService,UserService>();
             services.AddScoped<ICastService, CastService>();
             services.AddScoped<ICastRepository, CastRepository>();
+            services.AddScoped<IAsyncRepository<Genre>, EfRepository<Genre>>();
+            services.AddScoped<IGenreService, GenreService>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddHttpContextAccessor();
+            services.AddMemoryCache();
+
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -65,8 +72,10 @@ namespace MovieShopMVC
         {
             if (env.IsDevelopment())
             {
-               // app.UseDeveloperExceptionPage();
-                app.UseExceptionHandler("/Home/Error");
+                //app.UseDeveloperExceptionPage();
+                // app.UseExceptionHandler("/Home/Error");
+                app.UseMovieShopExceptionMiddleware();
+                
             }
             else
             {

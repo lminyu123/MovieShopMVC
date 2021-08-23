@@ -16,6 +16,12 @@ namespace Infrastructure.Repositories
         {
         }
 
+        public async Task<User> GetPurchaseMovies(int userId)
+        {
+            return await _dbContext.Users.Include(u => u.Purchases).ThenInclude(u => u.Movie).FirstOrDefaultAsync(u => u.Id == userId);
+
+        }
+
         public async Task<User> GetUserByEmail(string email)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);

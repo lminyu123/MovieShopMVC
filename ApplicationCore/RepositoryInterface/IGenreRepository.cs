@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.RepositoryInterface
 {
-    public interface IMovieRepository: IAsyncRepository<Movie>
+   public interface IGenreRepository: IAsyncRepository<Genre>
     {
-        Task<IEnumerable<Movie>> Get30HighestRevenueMovies();
-        Task<List<Review>> GetReviews(int id);
-        
+
     }
 }
-   

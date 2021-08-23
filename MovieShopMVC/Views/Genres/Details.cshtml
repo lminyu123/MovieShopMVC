@@ -1,0 +1,52 @@
+﻿@*@model ApplicationCore.Model.GenreResponseModel
+    @inject ApplicationCore.ServiceInterfaces.IMovieService movieService
+
+
+    <h1>@Model.Name Movie</h1>
+
+    <div class="rounded">
+        <div class="container-fluid bg-light">
+            <div class="row">
+                @foreach (var movie in await movieService.GetTopRevenueMovies())
+                {
+                    var movieCards = movieService.GetMovieDetails(movie.Id);
+                    foreach (var genre in movieCards.Result.Genres)
+                    {
+                        if (genre.Id == Model.Id)
+                        {
+                            <div class="col-6 col-lg-3 col-sm-4 col-xl-2">
+                                @await Html.PartialAsync("_MovieCard", movie)
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>*@
+
+@model List<ApplicationCore.Model.MovieCardResponseModel>
+
+<div class="row justify-content-center bg-dark" style="color:white;">
+    <div class="col-5">
+        <h1>Movies in the Genre: @ViewData["genreName"]</h1>
+    </div>
+</div>
+
+<div class="rounded">
+
+    <div class="container-fluid bg-light">
+
+        <div class="row">
+
+            @foreach (var movie in Model)
+            {
+                <div class="col-6 col-lg-3 col-sm-4 col-xl-2">
+                    @await Html.PartialAsync("_MovieCard", movie)
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

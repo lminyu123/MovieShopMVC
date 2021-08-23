@@ -31,6 +31,7 @@ namespace Infrastructure.Repositories
 
         }
 
+       
         public override async Task<Movie> GetByIdAsync(int Id)
         {
             // movie table, then genres, then casts and rating
@@ -51,6 +52,15 @@ namespace Infrastructure.Repositories
             return movie;
         }
 
+        public async Task<List<Review>> GetReviews(int id)
+        {
+            var movies = await _dbContext.Reviews.Include(m => m.Movie).Where(m => m.MovieId == id).Include(m => m.User).Take(30).ToListAsync();
+            if (movies == null)
+            {
+                throw new Exception($"No Movie Found for the id {id}");
+            }
+            return movies;
 
+        }
     }
 }

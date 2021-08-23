@@ -1,0 +1,61 @@
+﻿@*@model IEnumerable<ApplicationCore.Model.GenreResponseModel>
+
+    @{
+        ViewData["Title"] = "Index";
+    }
+
+    <h1>Index</h1>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>*@
+
+@model List<ApplicationCore.Model.GenreResponseModel>
+
+<div class="row justify-content-center bg-dark" style="color:white;">
+    <div class="col-1">
+        <h1>Genres</h1>
+    </div>
+</div>
+
+<div class="row justify-content-center bg-light">
+    <div class="col-4">
+        <ul class="list-group">
+            @foreach (var genre in Model)
+            {
+                <li class="list-group-item"><a asp-controller="Genres" asp-action="Details" asp-route-id="@genre.Id" class="btn btn-primary btn-block">@genre.Name</a></li>
+            }
+
+        </ul>
+    </div>
+</div>

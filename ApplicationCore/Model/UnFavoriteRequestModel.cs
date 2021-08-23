@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Model
 {
-    public class GenreResponseModel
+  public  class UnFavoriteRequestModel
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-
-        public List<MovieCardResponseModel> Movies { get; set; }
-}
+        public int UserId { get; set; }
+        public int MovieId { get; set; }
+        public string MoiveName { get; set; }
+    }
 }

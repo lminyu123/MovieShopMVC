@@ -25,10 +25,9 @@ namespace MovieShopMVC.Controllers
 
         public async Task <IActionResult> Index()
         {
-           
-            var movieCards =await _movieService.GotTopRevenueMovies();
+            //throw new Exception(message: "some exception happend");
+            var movieCards =await _movieService.GetTopRevenueMovies();
             // get top revenue movie and display on the view
-
 
             return View(movieCards);
             

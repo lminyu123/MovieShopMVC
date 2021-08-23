@@ -17,7 +17,6 @@ namespace Infrastructure.Services
         {
             _movieRepository = movieRepository;
         }
-
         public async Task<MovieDetailsResponseModel> GetMovieDetails(int id)// call the method in moviecontroller
         {
             var movie = await _movieRepository.GetByIdAsync(id);
@@ -64,8 +63,30 @@ namespace Infrastructure.Services
             }
             return MovieDetailsModel;
         }
+        
+        public async Task<List<MovieCardResponseModel>> GetTopRatedMovies()
+        {
+            var movies = await _movieRepository.Get30HighestRevenueMovies();
+            var movieCards = new List<MovieCardResponseModel>();
 
-        public async  Task<List<MovieCardResponseModel>> GotTopRevenueMovies()
+            //need convert movie to list
+            foreach (var movie in movies)
+            {
+                movieCards.Add(new MovieCardResponseModel
+                {
+
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    PosterUrl = movie.PosterUrl
+
+
+                });
+            }
+
+            return movieCards;
+        }
+
+        public async  Task<List<MovieCardResponseModel>> GetTopRevenueMovies()
         {
         
             var movies = await _movieRepository.Get30HighestRevenueMovies();
@@ -87,5 +108,45 @@ namespace Infrastructure.Services
             return movieCards;
 
         }
+        public async Task<List<MovieDetailsResponseModel>> GetAllMovie()
+        {
+            var movies = await _movieRepository.ListAllAsync();
+            var AllMovies = new List<MovieDetailsResponseModel>();
+            foreach (var movie in movies)
+            {
+                AllMovies.Add(new MovieDetailsResponseModel
+                {
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    PosterUrl = movie.PosterUrl
+                });
+            }
+
+            return AllMovies;
+        }
+
+
+
+        public async Task<IEnumerable<MovieReviewResponseModel>> GetMovieReviews(int id)
+        {
+            var movies = await _movieRepository.GetReviews(id);
+            var movieReview = new List<MovieReviewResponseModel>();
+            foreach (var movie in movies)
+            {
+                movieReview.Add(new MovieReviewResponseModel
+                {
+                    MovieId = movie.MovieId,
+                    UserId = movie.UserId,
+                    Title = movie.Movie.Title,
+                    FirstName = movie.User.FirstName,
+                    LastName = movie.User.LastName,
+                    Rating = movie.Rating,
+                    PosterUrl = movie.Movie.PosterUrl,
+                    ReviewText = movie.ReviewText
+                });
+            }
+            return movieReview;
+        }
     }
+    
 }

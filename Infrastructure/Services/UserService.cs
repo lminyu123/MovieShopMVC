@@ -22,12 +22,86 @@ namespace Infrastructure.Services
             _userRepository = userRepository;
         }
 
+        public Task<FavoriteResponseModel> AddToFavorite(FavoriteRequestModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> DeleteReviews(int id, int movieId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<AccountResponseModel>> GetAccount()
+        {
+            var users = await _userRepository.ListAllAsync();
+            var userList = new List<AccountResponseModel>();
+            foreach (var user in users)
+            {
+                userList.Add(new AccountResponseModel
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName
+                    
+                });
+            }
+            return userList;
+        }
+
+        public async Task<AccountResponseModel> GetAccountById(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            var userModel = new AccountResponseModel()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+
+            };
+
+            return userModel;
+        }
+
         public Task<IEnumerable<MovieCardResponseModel>> GetFavoriate(int UserId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<MovieCardResponseModel>> GetPurchaseMovie(int UserId)
+        public Task<List<FavoriteResponseModel>> GetFavoriteById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MovieCardResponseModel> GetFavoriteMovieDetail(int id, int movieId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<PurchaseMovieModel>> GetPurchaseById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<MovieCardResponseModel>> GetPurchaseMovie(int UserId)
+        {
+            var user = await _userRepository.GetPurchaseMovies (UserId);
+            var movieCards = new List<MovieCardResponseModel>();
+            foreach (var movie in user.Purchases)
+            {
+                movieCards.Add(new MovieCardResponseModel
+                {
+                    Id = movie.MovieId,
+                    Title = movie.Movie.Title,
+                    PosterUrl = movie.Movie.PosterUrl
+                });
+            }
+            return movieCards;
+        }
+
+        public Task<List<MovieReviewsModel>> GetReviews(int id)
         {
             throw new NotImplementedException();
         }
@@ -59,6 +133,26 @@ namespace Infrastructure.Services
             }
 
             return null;
+        }
+
+        public Task<ReviewsResponseModel> PostReviews(ReviewsRequestModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PurchaseMovieResponseModel> PurchaseMovie(PurchaseMovieModel purchaseMovie)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MovieReviewResponseModel> PutReviews(MovieReviewResponseModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReviewsResponseModel> PutReviews(ReviewsRequestModel model)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<UserRegisterResponseModel> RegisterUser(UserRegisterRequestModel model)
@@ -107,6 +201,10 @@ namespace Infrastructure.Services
 
         }
 
+        public Task<UnFavoriteResponseModel> removefromFavorite(UnFavoriteRequestModel model)
+        {
+            throw new NotImplementedException();
+        }
 
         private string GenerateSalt()
         {
@@ -117,6 +215,11 @@ namespace Infrastructure.Services
             }
 
             return Convert.ToBase64String(randomBytes);
+        }
+
+        Task<List<FavoriteRequestModel>> IUserService.GetFavoriteById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         private string GetHashedPassword(string password, string salt)
